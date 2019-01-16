@@ -12,6 +12,10 @@
 		312E4E5F21EE4E4B008AE32F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 312E4E5D21EE4E4B008AE32F /* Main.storyboard */; };
 		312E4E6121EE4E4F008AE32F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 312E4E6021EE4E4F008AE32F /* Assets.xcassets */; };
 		312E4E6421EE4E4F008AE32F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 312E4E6221EE4E4F008AE32F /* LaunchScreen.storyboard */; };
+		312E4E6C21EE51B4008AE32F /* AnimateVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312E4E6B21EE51B4008AE32F /* AnimateVC.swift */; };
+		312E4E6E21EE52D5008AE32F /* AnimatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312E4E6D21EE52D5008AE32F /* AnimatingView.swift */; };
+		312E4E7021EE816F008AE32F /* TypeOfCorner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312E4E6F21EE816F008AE32F /* TypeOfCorner.swift */; };
+		3136911221EFA3470030FA48 /* NumberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3136911121EFA3470030FA48 /* NumberCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +26,10 @@
 		312E4E6021EE4E4F008AE32F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		312E4E6321EE4E4F008AE32F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		312E4E6521EE4E4F008AE32F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		312E4E6B21EE51B4008AE32F /* AnimateVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimateVC.swift; sourceTree = "<group>"; };
+		312E4E6D21EE52D5008AE32F /* AnimatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatingView.swift; sourceTree = "<group>"; };
+		312E4E6F21EE816F008AE32F /* TypeOfCorner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeOfCorner.swift; sourceTree = "<group>"; };
+		3136911121EFA3470030FA48 /* NumberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,14 +62,26 @@
 		312E4E5821EE4E4B008AE32F /* AnimateText */ = {
 			isa = PBXGroup;
 			children = (
+				3136911021EFA32C0030FA48 /* View */,
 				312E4E5921EE4E4B008AE32F /* AppDelegate.swift */,
 				312E4E5B21EE4E4B008AE32F /* ViewController.swift */,
 				312E4E5D21EE4E4B008AE32F /* Main.storyboard */,
 				312E4E6021EE4E4F008AE32F /* Assets.xcassets */,
 				312E4E6221EE4E4F008AE32F /* LaunchScreen.storyboard */,
 				312E4E6521EE4E4F008AE32F /* Info.plist */,
+				312E4E6B21EE51B4008AE32F /* AnimateVC.swift */,
+				312E4E6D21EE52D5008AE32F /* AnimatingView.swift */,
+				312E4E6F21EE816F008AE32F /* TypeOfCorner.swift */,
 			);
 			path = AnimateText;
+			sourceTree = "<group>";
+		};
+		3136911021EFA32C0030FA48 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3136911121EFA3470030FA48 /* NumberCell.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -135,7 +155,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				312E4E6C21EE51B4008AE32F /* AnimateVC.swift in Sources */,
+				312E4E6E21EE52D5008AE32F /* AnimatingView.swift in Sources */,
+				3136911221EFA3470030FA48 /* NumberCell.swift in Sources */,
 				312E4E5C21EE4E4B008AE32F /* ViewController.swift in Sources */,
+				312E4E7021EE816F008AE32F /* TypeOfCorner.swift in Sources */,
 				312E4E5A21EE4E4B008AE32F /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
