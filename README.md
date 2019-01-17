@@ -1,3 +1,3 @@
 # Swift-animations
 
-(https://media.giphy.com/media/ZNoKvkmXS3ouSothhA/giphy.gif)
+![Output sample](https://media.giphy.com/media/ZNoKvkmXS3ouSothhA/giphy.gif)
