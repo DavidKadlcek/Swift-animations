@@ -109,8 +109,7 @@ class AnimatingView: UIView {
             if xPosition < label.frame.width {
                 xPosition = label.frame.width
             }
-            
-            //xPosition = label.frame.width
+
             animateSecondLabel(index: Double(index), label: label)
         }
         
