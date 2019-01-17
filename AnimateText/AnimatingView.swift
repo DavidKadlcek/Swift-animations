@@ -32,7 +32,6 @@ class AnimatingView: UIView {
         var animations: [() -> ()] = []
         animations.append(animateFirstView)
         animations.append(animateSecondView)
-        print(animations)
         return animations
     }
     
@@ -66,17 +65,17 @@ class AnimatingView: UIView {
             }
             
             label.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-            label.sizeToFit()
-            lastLabelBottom = label
+            label.widthAnchor.constraint(equalToConstant: frame.width / 2).isActive = true
             
-            if label.frame.maxX > xPosition {
-                xPosition = label.frame.maxX
+            lastLabelBottom = label
+            label.layoutIfNeeded()
+            if xPosition < label.frame.width {
+                xPosition = label.frame.width
             }
             // Animate
             animateLabel(index: Double(index), label: label)
             
             if index == variableLabels.count - 1 {
-                print(xPosition, "X POSITI")
                 createByType(maxPosition: xPosition, types: [.bottomLeft, .topRight])
             }
             
@@ -101,13 +100,17 @@ class AnimatingView: UIView {
             }
             
             label.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-            label.sizeToFit()
+            label.widthAnchor.constraint(equalToConstant: frame.width / 2).isActive = true
+            
             lastLabelBottom = label
             
-            if label.frame.maxX > xPosition {
-                xPosition = label.frame.maxX
+            label.layoutIfNeeded()
+            
+            if xPosition < label.frame.width {
+                xPosition = label.frame.width
             }
             
+            //xPosition = label.frame.width
             animateSecondLabel(index: Double(index), label: label)
         }
         
@@ -141,22 +144,22 @@ class AnimatingView: UIView {
                 imageView = createCorner(type: .bottomLeft)
                 addSubview(imageView)
                 imageView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: -(maxPosition)).isActive = true
-                imageView.centerYAnchor.constraint(equalTo: lastLabelBottom.centerYAnchor, constant: -5).isActive = true
+                imageView.bottomAnchor.constraint(equalTo: lastLabelBottom.bottomAnchor, constant: 10).isActive = true
             case .bottomRight:
                 imageView = createCorner(type: .bottomRight)
                 addSubview(imageView)
                 imageView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: (maxPosition)).isActive = true
-                imageView.centerYAnchor.constraint(equalTo: lastLabelBottom.centerYAnchor, constant: -5).isActive = true
+                imageView.bottomAnchor.constraint(equalTo: lastLabelBottom.bottomAnchor, constant: 10).isActive = true
             case .topLeft:
                 imageView = createCorner(type: .topLeft)
                 addSubview(imageView)
                 imageView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: -(maxPosition)).isActive = true
-                imageView.centerYAnchor.constraint(equalTo: variableLabels[0].centerYAnchor, constant: -5).isActive = true
+                imageView.topAnchor.constraint(equalTo: variableLabels[0].topAnchor, constant: -20).isActive = true
             case .topRight:
                 imageView = createCorner(type: .topRight)
                 addSubview(imageView)
                 imageView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: (maxPosition)).isActive = true
-                imageView.centerYAnchor.constraint(equalTo: variableLabels[0].centerYAnchor, constant: -5).isActive = true
+                imageView.topAnchor.constraint(equalTo: variableLabels[0].topAnchor, constant: -20).isActive = true
             }
             
             animateCorners(imageView: imageView, type: type)
@@ -206,7 +209,6 @@ class AnimatingView: UIView {
     
     private func animateSecondLabel(index: Double, label: UILabel) {
         let delay = 0.4 + 0.3 * index
-        print("HMMa")
         animator = UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.4, delay: delay, options: .curveEaseIn, animations: {
             label.transform = CGAffineTransform(translationX: 0, y: (self.constraintsUpBy) + 90)
             label.transform = CGAffineTransform(scaleX: 1, y: 1)
@@ -247,6 +249,7 @@ class AnimatingView: UIView {
         label.font = UIFont(name: ".SFUIText-Bold", size: 25)
         label.textColor = color
         label.text = text.uppercased()
+        label.numberOfLines = 0
         return label
     }
     
