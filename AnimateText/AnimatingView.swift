@@ -32,6 +32,7 @@ class AnimatingView: UIView {
         var animations: [() -> ()] = []
         animations.append(animateFirstView)
         animations.append(animateSecondView)
+        animations.append(animateThirdView)
         return animations
     }
     
@@ -48,9 +49,6 @@ class AnimatingView: UIView {
     
     
     private func animateFirstView() {
-        lastLabelBottom = UILabel()
-        xPosition = CGFloat()
-
         removeAllSubviews()
         
         for (index, label) in variableLabels.enumerated() {
@@ -83,9 +81,6 @@ class AnimatingView: UIView {
     }
     
     private func animateSecondView() {
-        lastLabelBottom = UILabel()
-        xPosition = CGFloat()
-        
         removeAllSubviews()
         for (index, label) in variableLabels.enumerated() {
             label.alpha = 0
@@ -118,6 +113,35 @@ class AnimatingView: UIView {
         
     }
     
+    private func animateThirdView() {
+        removeAllSubviews()
+        for (index, label) in variableLabels.enumerated() {
+            let rotationAngle: CGFloat = CGFloat(15 * Double.pi / 180)
+            label.alpha = 0
+            label.transform = CGAffineTransform(rotationAngle: -rotationAngle)
+        
+            addSubview(label)
+        
+            if index == 0 {
+                label.topAnchor.constraint(equalTo: topAnchor, constant: constraintsUpBy).isActive = true
+            } else {
+                label.topAnchor.constraint(equalTo: lastLabelBottom.bottomAnchor, constant: 5).isActive = true
+            }
+            
+            
+            label.centerXAnchor.constraint(equalTo: centerXAnchor, constant: -constraintsUpBy).isActive = true
+            
+            label.widthAnchor.constraint(equalToConstant: frame.width / 2).isActive = true
+            
+            lastLabelBottom = label
+            
+            label.layoutIfNeeded()
+
+            animateThirdLabel(index: Double(index), label: label)
+        }
+        animateViewsInThirdAnimate(views: createViewsForThirdAnimation())
+    }
+    
     private func viewCreateSecondViewView() -> UIView {
         let whiteView = UIView()
         whiteView.translatesAutoresizingMaskIntoConstraints = false
@@ -133,6 +157,49 @@ class AnimatingView: UIView {
         whiteView.widthAnchor.constraint(equalToConstant: xPosition).isActive = true
         
         return whiteView
+    }
+    
+    private func createViewsForThirdAnimation() -> [UIView] {
+        var views = [UIView]()
+        
+        for i in 0...2 {
+            let whiteView = UIView()
+            whiteView.translatesAutoresizingMaskIntoConstraints = false
+            whiteView.layer.cornerRadius = 8
+            whiteView.backgroundColor = .white
+            whiteView.alpha = 0
+            
+            addSubview(whiteView)
+            
+            let direction: CGFloat = 40
+            var y = CGFloat()
+            
+            variableLabels.forEach { label in
+                let labelOfMaxY = self.convert(label.bounds, to: self)
+                y += labelOfMaxY.maxY
+            }
+            
+            switch i {
+            case 0:
+                whiteView.rightAnchor.constraint(equalTo: lastLabelBottom.leftAnchor, constant: -direction).isActive = true
+                whiteView.topAnchor.constraint(equalTo: topAnchor, constant: constraintsUpBy).isActive = true
+                whiteView.heightAnchor.constraint(equalToConstant: y).isActive = true
+                whiteView.widthAnchor.constraint(equalToConstant: 2).isActive = true
+            case 1:
+                whiteView.leftAnchor.constraint(equalTo: lastLabelBottom.rightAnchor, constant: direction).isActive = true
+                whiteView.topAnchor.constraint(equalTo: topAnchor, constant: constraintsUpBy).isActive = true
+                whiteView.heightAnchor.constraint(equalToConstant: y).isActive = true
+                whiteView.widthAnchor.constraint(equalToConstant: 2).isActive = true
+            default:
+                whiteView.topAnchor.constraint(equalTo: lastLabelBottom.bottomAnchor, constant: constraintsUpBy).isActive = true
+                whiteView.widthAnchor.constraint(equalToConstant: lastLabelBottom.frame.width).isActive = true
+                whiteView.rightAnchor.constraint(equalTo: leftAnchor).isActive = true
+                whiteView.heightAnchor.constraint(equalToConstant: 2).isActive = true
+            }
+
+            views.append(whiteView)
+        }
+        return views
     }
     
     func createByType(maxPosition: CGFloat, types: [TypeOfCorner]) {
@@ -223,6 +290,41 @@ class AnimatingView: UIView {
         }
     }
     
+    private func animateThirdLabel(index: Double, label: UILabel) {
+        let delay = 0.4 + 0.3 * index
+        animator = UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.4, delay: delay, options: .curveEaseIn, animations: {
+            let valueOfConstraints = Int(index) % 2 == 0 ? self.constraintsUpBy : -self.constraintsUpBy
+            label.alpha = 1
+            label.transform = CGAffineTransform(translationX: valueOfConstraints, y: 0)
+            label.transform = CGAffineTransform(rotationAngle: 0)
+        })
+        animator?.startAnimation()
+    }
+    
+    private func animateViewsInThirdAnimate(views: [UIView]) {
+        for (index, view) in views.enumerated() {
+            var direction = CGFloat()
+            
+            switch index {
+            case 0:
+                direction = 20
+            case 1:
+                direction = -20
+            default:
+                direction = 20
+            }
+            
+            UIView.animate(withDuration: 0.6) {
+                view.alpha = 1
+                if index == 2 {
+                    view.transform = CGAffineTransform(translationX: self.lastLabelBottom.frame.width + (self.lastLabelBottom.frame.width / 2), y: 0)
+                } else {
+                    view.transform = CGAffineTransform(translationX: direction, y: 0)
+                }
+            }
+        }
+    }
+    
     private func animateCorners(imageView: UIImageView, type: TypeOfCorner) {
         UIView.animate(withDuration: 0.5) {
             imageView.alpha = 1
@@ -253,6 +355,8 @@ class AnimatingView: UIView {
     }
     
     private func removeAllSubviews() {
+        lastLabelBottom = UILabel()
+        xPosition = CGFloat()
         for view in subviews {
             view.removeFromSuperview()
         }
